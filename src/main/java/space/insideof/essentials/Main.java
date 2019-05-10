@@ -9,12 +9,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
+import space.insideof.essentials.listener.PlayerListener;
 
-public class Main extends JavaPlugin {
+public final class Main extends JavaPlugin {
+    private static Main instance;
+
+    public static JavaPlugin getInstance() {
+        return instance;
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-        switch(command.getName()){
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        switch(command.getName()) {
             case("clearinv"): {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -54,26 +60,38 @@ public class Main extends JavaPlugin {
                 }
             }
             case("i"): {
-                if(args.length == 0){
+                if(args.length == 0) {
                     Player player = (Player) sender;
                     player.sendMessage("I need an item!");
                 }
-                else if(args.length == 1){
+                else if(args.length == 1) {
                     Player player = (Player) sender;
                     player.sendMessage("I need an amount!");
                 }
-                else if(sender instanceof Player && sender.hasPermission("give")){
+                else if(sender instanceof Player && sender.hasPermission("give")) {
                     Player player = (Player) sender;
                     int amount = Integer.parseInt(args[1]);
                     player.getInventory().addItem(new ItemStack(Material.valueOf(args[0]), amount));
                 }
             }
         }
-
         return true;
     }
+
     @Override
     public void onEnable() {
-        getLogger().info("Essentials running!");
+        instance = this;
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+
+        for(Player player : getServer().getOnlinePlayers())
+            User.getUser(player, true);
+
+        getLogger().info("Essentials is now running!");
+    }
+
+    @Override
+    public void onDisable() {
+        for(Player player : getServer().getOnlinePlayers())
+            User.unloadUser(player);
     }
 }

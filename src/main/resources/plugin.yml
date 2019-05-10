@@ -1,0 +1,16 @@
+name: ${project.name}
+main: ${project.groupId}.${project.artifactId}.Main
+version: ${project.version}
+commands:
+  gamemode:
+    description: Changes your gamemode.
+  clearinv:
+    description: Clears your inventory.
+  kill:
+    description: Kinda obvious. First MC ties a metaphorical noose around your neck, and then it tightens it so quickly that your head comes off like a guillotine was used.
+  blah:
+    description: Mhmmmm.
+  tpa:
+    description: teleport
+  i:
+    description: Shorthand for give.

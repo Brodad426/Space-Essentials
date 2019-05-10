@@ -2,6 +2,7 @@ package space.insideof.essentials;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -63,7 +64,8 @@ public class Main extends JavaPlugin {
                 }
                 else if(sender instanceof Player && sender.hasPermission("give")){
                     Player player = (Player) sender;
-
+                    int amount = Integer.parseInt(args[1]);
+                    player.getInventory().addItem(new ItemStack(Material.valueOf(args[0]), amount));
                 }
             }
         }
